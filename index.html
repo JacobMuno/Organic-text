@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Organic Writing Tool</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div id="output"></div>
+    <textarea id="input"></textarea>
+    <br>
+    <label for="speed">Typing speed:</label>
+    <input type="range" id="speed" name="speed" min="1" max="10" value="5">
+    <br>
+    <button onclick="startTyping()">Start Typing</button>
+
+    <script>
+      function startTyping() {
+        // Get the input text from the textarea
+        var inputText = document.getElementById("input").value;
+        var outputDiv = document.getElementById("output");
+
+        // Get the typing speed (in seconds) from the slider input
+        var typingSpeed = document.getElementById("speed").value;
+
+        // Loop through each character in the input text
+        for (var i = 0; i < inputText.length; i++) {
+          // Add a random break between each character
+          var breakTime = Math.floor(Math.random() * 200) + 100;
+
+          // Use a timeout to add a delay between each character
+          setTimeout(function(i) {
+            return function() {
+              // Get the current character
+              var currentChar = inputText.charAt(i);
+
+              // Add the character to the output div
+              outputDiv.innerHTML += currentChar;
+            }
+          }(i), i * (typingSpeed * 1000) + breakTime); // Set the delay time here (in milliseconds)
+
+          // Add a longer break after every 500 characters (or at the end of the text)
+          if (i % 500 === 0 || i === inputText.length - 1) {
+            var longBreakTime = Math.floor(Math.random() * 120000) + 180000; // Generate a random break time between 3-5 minutes (in milliseconds)
+            setTimeout(function() {
+              // Do nothing during the break
+            }, longBreakTime);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
